@@ -164,6 +164,7 @@ public class LoanCalcViewController implements Initializable   {
 		double totalPayment = numerator/denominator;
 		double total = Math.round(totalPayment*100)/100;
 		
+		
 		return total;
 	}
 	
