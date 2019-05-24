@@ -2,7 +2,7 @@ package app;
 
 import java.io.IOException;
 
-import app.TableTemp.Person;
+
 import app.controller.LoanCalcViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
