@@ -55,6 +55,7 @@
                         <TextField fx:id="InterestRate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="NbrOfYears" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <DatePicker fx:id="PaymentStartDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="ExtraPayment" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <HBox prefHeight="152.0" prefWidth="88.0" />
@@ -69,7 +70,8 @@
                     </rowConstraints>
                      <children>
                         <Label text="Total Payments" />
-                        <Label text="Total Interest" GridPane.rowIndex="1" />
+                        <Label text="Total Interest" GridPane.rowIndex="1"/>
+                        <Label fx:id="lblTotalInterest" GridPane.rowIndex="1" GridPane.columnIndex="1" />
                         <Label fx:id="lblTotalPayemnts" prefHeight="18.0" prefWidth="174.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
@@ -77,15 +79,15 @@
             </HBox>
             <HBox prefHeight="231.0" prefWidth="651.0">
                <children>
-                  <TableView prefHeight="231.0" prefWidth="815.0">
+                  <TableView fx:id = "tableView" prefHeight="231.0" prefWidth="815.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="Payment #" />
-                      <TableColumn prefWidth="114.0" text="Due Date" />
-                        <TableColumn prefWidth="85.0" text="Payment" />
-                        <TableColumn prefWidth="140.0" text="Additonal Payment" />
-                        <TableColumn prefWidth="148.0" text="Interest" />
-                        <TableColumn prefWidth="129.0" text="Principle" />
-                        <TableColumn prefWidth="75.0" text="Balance" />
+                      <TableColumn fx:id = "numCol" prefWidth="75.0" text="Payment #" />
+                      <TableColumn fx:id = "dueDateCol" prefWidth="114.0" text="Due Date" />
+                        <TableColumn fx:id = "paymentCol" prefWidth="85.0" text="Payment" />
+                        <TableColumn fx:id = "adPaymentCol" prefWidth="140.0" text="Additional Payment" />
+                        <TableColumn fx:id = "interestCol" prefWidth="148.0" text="Interest" />
+                        <TableColumn fx:id = "principalCol" prefWidth="129.0" text="Principal" />
+                        <TableColumn fx:id = "balanceCol" prefWidth="75.0" text="Balance" />
                     </columns>
                   </TableView>
                </children></HBox>

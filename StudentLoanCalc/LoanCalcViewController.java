@@ -23,9 +23,7 @@ import javafx.scene.control.DatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import app.controller.helper.*;
-
-public class LoanCalcViewController implements Initializable   {
+public class LoanCalcViewController extends Loan implements Initializable   {
 
 	private StudentCalc SC = null;
 	
@@ -105,12 +103,13 @@ public class LoanCalcViewController implements Initializable   {
 	private void btnCalcLoan(ActionEvent event) {
 
 		double loanAmount = Double.parseDouble(LoanAmount.getText());
-		int years = Integer.parseInt(NbrOfYears.getText());
-		double intRate = Double.parseDouble(InterestRate.getText());
 		
-		lblTotalPayemnts.setText(String.valueOf(getTotalPayments(loanAmount,years,intRate)));
-		lblTotalInterest.setText(String.valueOf(getTotalPayments(loanAmount,years,intRate)-loanAmount));
-		
+		lblTotalPayemnts.setText((String.valueOf(getTotalPayments(Double.parseDouble(LoanAmount.getText()),
+				Integer.parseInt(NbrOfYears.getText()),
+				Double.parseDouble(InterestRate.getText())))));
+		lblTotalInterest.setText(String.valueOf(getTotalPayments(Double.parseDouble(LoanAmount.getText()),
+				Integer.parseInt(NbrOfYears.getText()),
+				Double.parseDouble(InterestRate.getText()))-Double.parseDouble(LoanAmount.getText())));
 		
 		
 		tableView.setItems(getPayments());
@@ -121,34 +120,37 @@ public class LoanCalcViewController implements Initializable   {
 	public ObservableList<Payments> getPayments(){
 		 
 		ObservableList<Payments> payments = FXCollections.observableArrayList();
-		
-		Double bal = Double.parseDouble(LoanAmount.getText());
+		Loan x = new Loan();
+		double bal = Double.parseDouble(LoanAmount.getText());
 		double adPayment = Double.parseDouble(ExtraPayment.getText());
 		bal=bal-adPayment;
 		int years = Integer.parseInt(NbrOfYears.getText());
 		int months = years*12;
 		double intRate = Double.parseDouble(InterestRate.getText());
-		double totalPay = getTotalPayments(bal,years,intRate);
+		double totalPay = x.getTotalPayments(bal,years,intRate);
 	
 		LocalDate date = PaymentStartDate.getValue();
 		
-		double payment = totalPay/months;
+		double payment = Math.round(totalPay/months);
 		double interest;
 		double principal;
 		
+		
+		
+	
 		payments.add(new Payments(0,null,0,adPayment,0,0,bal));
 		
 		for(int i=1; i<=months;i++ ) {
-			interest=bal*intRate/1200;
-			principal=payment-interest;
-			bal=bal-principal;
+			interest=Math.round((bal*intRate)*100)/100;
+			principal=Math.round((payment-interest)*100)/100;
+			bal=Math.round((bal-principal)*100)/100;
 			date=date.plusMonths(1);
 			
 			if(bal<0) {
 				bal=0.0;
 			}
 	
-			payments.add(new Payments(i,date,Math.round(payment*100)/100,0,Math.round(interest*100)/100,Math.round(principal*100)/100,Math.round(bal*100)/100));
+			payments.add(new Payments(i,date,payment,0,interest,principal,bal));
 			
 		}
 		
@@ -156,18 +158,87 @@ public class LoanCalcViewController implements Initializable   {
 		return payments;
 	}
 	
-	public double getTotalPayments(double loanAmount, int terms, double intRate) {
-		intRate= intRate/1200;
-		int year = terms*12;
-		double numerator = intRate*loanAmount*year;
-		double denominator = 1-(Math.pow(1+intRate, -1*year));
-		double totalPayment = numerator/denominator;
-		double total = Math.round(totalPayment*100)/100;
-		
-		return total;
-	}
 	
+	public class Payments{
+		private Integer num;
+        private LocalDate due;
+        private Double pay;
+        private Double adPay;
+        private Double interest;
+        private Double prin;
+        private Double balance;
+     
 
+		public Payments(int num, LocalDate due, double pay, double adPay, double interest, double prin,double balance) {
+			this.num = num;
+			this.due = due;
+			this.pay = pay;
+			this.adPay = adPay;
+			this.interest = interest;
+			this.prin = prin;
+			this.balance = balance;
+		}
+
+
+		public void setNum(int num) {
+			this.num=num;
+		}
+		
+		public Integer getNum() {
+			return num;
+		}
+		
+		public void setDue(LocalDate due) {
+			this.due=due;
+		}
+
+		public LocalDate getDue() {
+			return due;
+		}
+
+		public void setPay(double pay) {
+			this.pay = pay;
+		}
+
+		public Double getPay() {
+			return pay;
+		}
+
+		public void seAdPay(double adPay) {
+			this.adPay = adPay;
+		}
+
+		public Double getAdPay() {
+			return adPay;
+		}
+
+		public void setInterest(double interest) {
+			this.interest = interest;
+		}
+
+		public Double getInterest() {
+			return interest;
+		}
+
+		public void setPrin(double prin) {
+			this.prin = prin;
+		}
+
+		public Double getPrin() {
+			return prin;
+		}
+
+		public void setBalance(double balance) {
+			this.balance = balance;
+		}
+
+		public Double getBalance() {
+			return balance;
+		}
+		
+		
+
+	}
 	
 
 }
