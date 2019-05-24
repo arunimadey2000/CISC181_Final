@@ -21,6 +21,10 @@ public class Payments{
 		this.prin = prin;
 		this.balance = balance;
 	}
+	
+	public Payments() {
+		
+	}
 
 
 	public void setNum(int num) {
@@ -77,6 +81,18 @@ public class Payments{
 
 	public Double getBalance() {
 		return balance;
+	}
+	
+	public double getTotalPayments(double loanAmount, int terms, double intRate) {
+		intRate= intRate/1200;
+		int year = terms*12;
+		double numerator = intRate*loanAmount*year;
+		double denominator = 1-(Math.pow(1+intRate, -1*year));
+		double totalPayment = numerator/denominator;
+		double total = Math.round(totalPayment*100)/100;
+		
+		
+		return total;
 	}
 	
 	

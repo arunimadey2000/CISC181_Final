@@ -108,8 +108,11 @@ public class LoanCalcViewController implements Initializable   {
 		int years = Integer.parseInt(NbrOfYears.getText());
 		double intRate = Double.parseDouble(InterestRate.getText());
 		
-		lblTotalPayemnts.setText(String.valueOf(getTotalPayments(loanAmount,years,intRate)));
-		lblTotalInterest.setText(String.valueOf(getTotalPayments(loanAmount,years,intRate)-loanAmount));
+		Payments p = new Payments();
+		
+		lblTotalPayemnts.setText(String.valueOf(p.getTotalPayments(loanAmount,years,intRate)));
+		lblTotalInterest.setText(String.valueOf(p.getTotalPayments(loanAmount,years,intRate)-loanAmount));
+		
 		
 		
 		
@@ -121,6 +124,7 @@ public class LoanCalcViewController implements Initializable   {
 	public ObservableList<Payments> getPayments(){
 		 
 		ObservableList<Payments> payments = FXCollections.observableArrayList();
+		Payments p = new Payments();
 		
 		Double bal = Double.parseDouble(LoanAmount.getText());
 		double adPayment = Double.parseDouble(ExtraPayment.getText());
@@ -128,7 +132,7 @@ public class LoanCalcViewController implements Initializable   {
 		int years = Integer.parseInt(NbrOfYears.getText());
 		int months = years*12;
 		double intRate = Double.parseDouble(InterestRate.getText());
-		double totalPay = getTotalPayments(bal,years,intRate);
+		double totalPay = p.getTotalPayments(bal,years,intRate);
 	
 		LocalDate date = PaymentStartDate.getValue();
 		
@@ -156,17 +160,6 @@ public class LoanCalcViewController implements Initializable   {
 		return payments;
 	}
 	
-	public double getTotalPayments(double loanAmount, int terms, double intRate) {
-		intRate= intRate/1200;
-		int year = terms*12;
-		double numerator = intRate*loanAmount*year;
-		double denominator = 1-(Math.pow(1+intRate, -1*year));
-		double totalPayment = numerator/denominator;
-		double total = Math.round(totalPayment*100)/100;
-		
-		
-		return total;
-	}
 	
 
 	
